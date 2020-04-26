@@ -1,71 +1,59 @@
 package model.entities;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.Socket;
 
-public class Server {
+public class Server extends Thread {
 
-	private Integer id;
-	private String hostname;
-	private String ip;
-	private List<Client> clients;
-	private List<Log> logs;
+	private Socket client;
 
 	public Server() {
 
 	}
 
-	public Server(Integer id, String hostname, String ip) {
-		this.id = id;
-		this.hostname = hostname;
-		this.ip = ip;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getHostname() {
-		return hostname;
-	}
-
-	public void setHostname(String hostname) throws UnknownHostException {
-		this.hostname = hostname;
-		this.ip = InetAddress.getLocalHost().getHostName();
-	}
-
-	public String getIp() {
-		return ip;
-	}
-	
-	public void setIP() throws UnknownHostException {
-		this.ip = InetAddress.getLocalHost().getHostAddress();
-	}
-
-	public List<Client> getClients() {
-		return clients;
-	}
-
-	public void addClient (Client client) {
-		this.clients.add(client);
-	}
-
-	public List<Log> getLogs() {
-		return logs;
-	}
-
-	public void setLogs(Log log) {
-		this.logs.add(log);
+	public Server(Socket cliente) {
+		this.client = cliente;
 	}
 
 	@Override
-	public String toString() {
-		return "Server [id=" + id + ", hostname=" + hostname + ", ip=" + ip + "]";
+	public void run() {
+		System.out.println("Nova conexão com o cliente " + client.getInetAddress().getHostAddress());
+
+		try {
+			
+			do {
+				InputStream in = client.getInputStream();
+				InputStreamReader isr = new InputStreamReader(in);
+				BufferedReader reader = new BufferedReader(isr);
+				String fName = reader.readLine();
+				System.out.println(fName);
+				File f1 = new File("logs\\logCurrent.txt");
+				//FileOutputStream out = new FileOutputStream(f1);
+				FileOutputStream out = new FileOutputStream(f1, false);
+				int tamanho = 4096; // buffer de 4KB
+				byte[] buffer = new byte[tamanho];
+				int lidos = -1;
+				while ((lidos = in.read(buffer, 0, tamanho)) != -1) {
+					System.out.println(lidos);
+					out.write(buffer, 0, lidos);
+				}
+				out.flush();
+				out.close();
+				//in.close();
+							
+			}while(client.isConnected());
+			this.client.close();
+
+			// servidor.close();
+			
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+
 	}
-	
 }
