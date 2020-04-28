@@ -4,67 +4,95 @@ import java.util.Date;
 
 public class Log {
 
-	private Integer id;
+	//private Integer id;
 	private String ipClient;
 	private Date dateHour;
-	private Double temperature;
-	private Double cpu;
-	private Double gpu;
-	private Double diskUsage;
+	private Double cpuMhz;
 	private Double freeRam;
+	private Double diskUsagePerc;
+
 	
 	public Log() {
 		
 	}
 
-	public Log(Integer id, String ipClient, Date dateHour, Double temperature, Double cpu, Double gpu, Double diskUsage,
-			Double freeRam) {
-		this.id = id;
+
+	public Log(String ipClient, Date dateHour, Double cpuMhz, Double freeRam, Double diskUsagePerc) {
+		//this.id = null;
 		this.ipClient = ipClient;
 		this.dateHour = dateHour;
-		this.temperature = temperature;
-		this.cpu = cpu;
-		this.gpu = gpu;
-		this.diskUsage = diskUsage;
+		this.cpuMhz = cpuMhz;
 		this.freeRam = freeRam;
+		this.diskUsagePerc = diskUsagePerc;
 	}
 
-	public Integer getId() {
+
+	/*public Integer getId() {
 		return id;
 	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}*/
+
 
 	public String getIpClient() {
 		return ipClient;
 	}
 
+
+	public void setIpClient(String ipClient) {
+		this.ipClient = ipClient;
+	}
+
+
 	public Date getDateHour() {
 		return dateHour;
 	}
 
-	public Double getTemperature() {
-		return temperature;
+
+	public void setDateHour(Date dateHour) {
+		this.dateHour = dateHour;
 	}
 
-	public Double getCpu() {
-		return cpu;
+
+	public Double getCpuMhz() {
+		return cpuMhz;
 	}
 
-	public Double getGpu() {
-		return gpu;
+
+	public void setCpuMhz(Double cpuMhz) {
+		this.cpuMhz = cpuMhz;
 	}
 
-	public Double getDiskUsage() {
-		return diskUsage;
-	}
 
 	public Double getFreeRam() {
 		return freeRam;
 	}
 
+
+	public void setFreeRam(Double freeRam) {
+		this.freeRam = freeRam;
+	}
+
+
+	public Double getDiskUsagePerc() {
+		return diskUsagePerc;
+	}
+
+
+	public void setDiskUsagePerc(Double diskUsagePerc) {
+		this.diskUsagePerc = diskUsagePerc;
+	}
+
+
 	@Override
 	public String toString() {
-		return "Log [id=" + id + ", ipClient=" + ipClient + ", dateHour=" + dateHour + ", temperature=" + temperature
-				+ ", cpu=" + cpu + ", gpu=" + gpu + ", diskUsage=" + diskUsage + ", freeRam=" + freeRam + "]";
+		return "Log [ipClient=" + ipClient + ", dateHour=" + dateHour + ", cpuMhz=" + cpuMhz
+				+ ", freeRam=" + freeRam + ", diskUsagePerc=" + diskUsagePerc + "]";
 	}
+
+	
 	
 }
