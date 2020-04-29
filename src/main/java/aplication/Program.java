@@ -17,7 +17,7 @@ public class Program {
 
 			while (servidor.isBound()) {
 				Socket cliente = servidor.accept();
-				System.out.println("TESTE");
+				System.out.println("Cliente 1");
 				// Thread para tratar o cliente conectado
 				Server tratamento = new Server(cliente);
 				Thread t = new Thread(tratamento);

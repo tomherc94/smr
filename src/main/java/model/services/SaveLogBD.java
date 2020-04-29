@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.CSVReader;
 
 import model.entities.Log;
 
@@ -17,7 +15,7 @@ public class SaveLogBD {
 	private Log log;
 
 	public SaveLogBD() {
-		
+
 	}
 
 	public SaveLogBD(String file) {
@@ -25,26 +23,35 @@ public class SaveLogBD {
 	}
 
 	public void convertFileToLog() throws IOException {
-		
+
 		// converter file em log
-		
+
 		Reader reader = Files.newBufferedReader(Paths.get(file));
 
-		CsvToBean<Log> csvToBean = new CsvToBeanBuilder<Log>(reader).withType(Log.class).build();
-
-		List<Log> logs = csvToBean.parse();
-
-		for (Log l : logs) {
-			this.log = l;
+		CSVReader csvReader = new CSVReader(reader);
+		
+		String[] nextRecord;
+		Log obj = new Log();
+		while ((nextRecord = csvReader.readNext()) != null) {
+			obj.setIpClient(nextRecord[0]);
+			obj.setDateHour(nextRecord[1]);
+			obj.setCpuMhz(Double.parseDouble(nextRecord[2]));
+			obj.setFreeRam(Long.parseLong(nextRecord[3]));
+			obj.setFreeSwap(Long.parseLong(nextRecord[4]));
+			obj.setDiskUsagePerc(Double.parseDouble(nextRecord[5]));
 			break;
 		}
+		
+		csvReader.close();
+
+		this.log = obj;
 		this.save();
-			
+
 	}
 
 	public void save() {
 		// salvar this.log no BD
-		System.out.println(this.log);
+		System.out.println(this.log.toString());
 	}
 
 }

@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+import model.services.SaveLogBD;
+
 public class Server extends Thread {
 
 	private Socket client;
@@ -42,8 +44,8 @@ public class Server extends Thread {
 					out.flush();
 					break;
 				}
-				// SaveLogBD saveLogBD = new SaveLogBD(f1.getPath());
-				// saveLogBD.convertFileToLog();
+				SaveLogBD saveLogBD = new SaveLogBD(f1.getPath());
+				saveLogBD.convertFileToLog();
 
 				out.close();
 			} while (client.isConnected());

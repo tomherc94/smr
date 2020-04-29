@@ -1,14 +1,14 @@
 package model.entities;
 
-import java.util.Date;
-
 public class Log {
 
 	//private Integer id;
+	
 	private String ipClient;
-	private Date dateHour;
+	private String dateHour;
 	private Double cpuMhz;
-	private Double freeRam;
+	private Long freeRam;
+	private Long freeSwap;
 	private Double diskUsagePerc;
 
 	
@@ -17,24 +17,14 @@ public class Log {
 	}
 
 
-	public Log(String ipClient, Date dateHour, Double cpuMhz, Double freeRam, Double diskUsagePerc) {
-		//this.id = null;
+	public Log(String ipClient, String dateHour, Double cpuMhz, Long freeRam, Long freeSwap, Double diskUsagePerc) {
 		this.ipClient = ipClient;
 		this.dateHour = dateHour;
 		this.cpuMhz = cpuMhz;
 		this.freeRam = freeRam;
+		this.freeSwap = freeSwap;
 		this.diskUsagePerc = diskUsagePerc;
 	}
-
-
-	/*public Integer getId() {
-		return id;
-	}
-
-
-	public void setId(Integer id) {
-		this.id = id;
-	}*/
 
 
 	public String getIpClient() {
@@ -47,12 +37,12 @@ public class Log {
 	}
 
 
-	public Date getDateHour() {
+	public String getDateHour() {
 		return dateHour;
 	}
 
 
-	public void setDateHour(Date dateHour) {
+	public void setDateHour(String dateHour) {
 		this.dateHour = dateHour;
 	}
 
@@ -67,13 +57,23 @@ public class Log {
 	}
 
 
-	public Double getFreeRam() {
+	public Long getFreeRam() {
 		return freeRam;
 	}
 
 
-	public void setFreeRam(Double freeRam) {
+	public void setFreeRam(Long freeRam) {
 		this.freeRam = freeRam;
+	}
+
+
+	public Long getFreeSwap() {
+		return freeSwap;
+	}
+
+
+	public void setFreeSwap(Long freeSwap) {
+		this.freeSwap = freeSwap;
 	}
 
 
@@ -89,10 +89,10 @@ public class Log {
 
 	@Override
 	public String toString() {
-		return "Log [ipClient=" + ipClient + ", dateHour=" + dateHour + ", cpuMhz=" + cpuMhz
-				+ ", freeRam=" + freeRam + ", diskUsagePerc=" + diskUsagePerc + "]";
+		return "Log [ipClient=" + ipClient + ", dateHour=" + dateHour + ", cpuMhz=" + cpuMhz + ", freeRam=" + freeRam
+				+ ", freeSwap=" + freeSwap + ", diskUsagePerc=" + diskUsagePerc + "]";
 	}
 
-	
+
 	
 }
