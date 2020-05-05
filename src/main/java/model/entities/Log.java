@@ -1,9 +1,19 @@
 package model.entities;
 
-public class Log {
+import java.io.Serializable;
 
-	//private Integer id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Log implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String ipClient;
 	private String dateHour;

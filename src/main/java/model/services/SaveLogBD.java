@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import com.opencsv.CSVReader;
 
@@ -49,7 +54,7 @@ public class SaveLogBD {
 			cli.setId(null);
 			cli.setIp(nextRecord[6]);
 			cli.setSystem(nextRecord[7]);
-			cli.setStatus(Status.ONLINE);
+			cli.setStatus("ONLINE");
 			break;
 		}
 		
@@ -62,8 +67,39 @@ public class SaveLogBD {
 	public void saveOn(Client cli, Log log) {
 		// salvar this.log no BD
 		//testa se o cliente existe no BD, se sim atualiza, senao cria novo cliente
-		System.out.println(log.toString());
-		System.out.println(cli.toString());
+		//System.out.println(log.toString());
+		//System.out.println(cli.toString());
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("exemplo-jpa");
+		EntityManager em = emf.createEntityManager();
+		
+		em.getTransaction().begin(); //inicia transação com o BD
+		em.persist(log);
+
+		//verifica se cliente ja existe no BD
+		List<Client> clientes = em.createQuery("SELECT c FROM cliente c", Client.class).getResultList();
+		boolean verificaClient = false;
+		for(Client c : clientes) {
+			if(cli.equals(c)) {
+				verificaClient = true;
+				break;
+			}
+		}
+		
+		if(verificaClient == false) {
+			em.persist(cli);
+		}
+		
+		
+		
+		
+	
+		em.getTransaction().commit();//confirma transação com o BD
+		
+		
+		System.out.println("SALVO NO BD!");
+		
+		em.close();
+		emf.close();
 	}
 	
 	public void saveOff(String ip, Status status) {
