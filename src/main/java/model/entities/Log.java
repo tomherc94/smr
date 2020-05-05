@@ -4,6 +4,7 @@ public class Log {
 
 	//private Integer id;
 	
+	private Integer id;
 	private String ipClient;
 	private String dateHour;
 	private Double cpuMhz;
@@ -17,13 +18,25 @@ public class Log {
 	}
 
 
-	public Log(String ipClient, String dateHour, Double cpuMhz, Long freeRam, Long freeSwap, Double diskUsagePerc) {
+	public Log(Integer id, String ipClient, String dateHour, Double cpuMhz, Long freeRam, Long freeSwap, Double diskUsagePerc) {
+		this.id = id;
 		this.ipClient = ipClient;
 		this.dateHour = dateHour;
 		this.cpuMhz = cpuMhz;
 		this.freeRam = freeRam;
 		this.freeSwap = freeSwap;
 		this.diskUsagePerc = diskUsagePerc;
+	}
+
+	
+	
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 
@@ -89,9 +102,12 @@ public class Log {
 
 	@Override
 	public String toString() {
-		return "Log [ipClient=" + ipClient + ", dateHour=" + dateHour + ", cpuMhz=" + cpuMhz + ", freeRam=" + freeRam
-				+ ", freeSwap=" + freeSwap + ", diskUsagePerc=" + diskUsagePerc + "]";
+		return "Log [id=" + id + ", ipClient=" + ipClient + ", dateHour=" + dateHour + ", cpuMhz=" + cpuMhz
+				+ ", freeRam=" + freeRam + ", freeSwap=" + freeSwap + ", diskUsagePerc=" + diskUsagePerc + "]";
 	}
+
+
+	
 
 
 	

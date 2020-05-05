@@ -7,12 +7,13 @@ import java.nio.file.Paths;
 
 import com.opencsv.CSVReader;
 
+import model.entities.Client;
 import model.entities.Log;
+import model.enums.Status;
 
 public class SaveLogBD {
 
 	private String file;
-	private Log log;
 
 	public SaveLogBD() {
 
@@ -20,6 +21,10 @@ public class SaveLogBD {
 
 	public SaveLogBD(String file) {
 		this.file = file;
+	}
+	
+	public SaveLogBD(String ip, Status status) {
+		//find cliente pelo ip e atualiza o status
 	}
 
 	public void convertFileToLog() throws IOException {
@@ -31,27 +36,38 @@ public class SaveLogBD {
 		CSVReader csvReader = new CSVReader(reader);
 		
 		String[] nextRecord;
-		Log obj = new Log();
+		Log log = new Log();
+		Client cli = new Client();
 		while ((nextRecord = csvReader.readNext()) != null) {
-			obj.setIpClient(nextRecord[0]);
-			obj.setDateHour(nextRecord[1]);
-			obj.setCpuMhz(Double.parseDouble(nextRecord[2]));
-			obj.setFreeRam(Long.parseLong(nextRecord[3]));
-			obj.setFreeSwap(Long.parseLong(nextRecord[4]));
-			obj.setDiskUsagePerc(Double.parseDouble(nextRecord[5]));
+			log.setId(null);
+			log.setIpClient(nextRecord[0]);
+			log.setDateHour(nextRecord[1]);
+			log.setCpuMhz(Double.parseDouble(nextRecord[2]));
+			log.setFreeRam(Long.parseLong(nextRecord[3]));
+			log.setFreeSwap(Long.parseLong(nextRecord[4]));
+			log.setDiskUsagePerc(Double.parseDouble(nextRecord[5]));
+			cli.setId(null);
+			cli.setIp(nextRecord[6]);
+			cli.setSystem(nextRecord[7]);
+			cli.setStatus(Status.ONLINE);
 			break;
 		}
 		
 		csvReader.close();
 
-		this.log = obj;
-		this.save();
+		this.saveOn(cli, log);
 
 	}
 
-	public void save() {
+	public void saveOn(Client cli, Log log) {
 		// salvar this.log no BD
-		System.out.println(this.log.toString());
+		//testa se o cliente existe no BD, se sim atualiza, senao cria novo cliente
+		System.out.println(log.toString());
+		System.out.println(cli.toString());
+	}
+	
+	public void saveOff(String ip, Status status) {
+		//atualiza cliente para OFFLINE
 	}
 
 }

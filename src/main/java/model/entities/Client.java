@@ -5,18 +5,18 @@ import model.enums.Status;
 public class Client {
 
 	private Integer id;
-	private String hostname;
 	private String ip;
+	private String system;
 	private Status status;
 	
 	public Client() {
 		
 	}
 
-	public Client(Integer id, String hostname, String ip, Status status) {
+	public Client(Integer id, String ip, String system, Status status) {
 		this.id = id;
-		this.hostname = hostname;
 		this.ip = ip;
+		this.system = system;
 		this.status = status;
 	}
 
@@ -28,20 +28,20 @@ public class Client {
 		this.id = id;
 	}
 
-	public String getHostname() {
-		return hostname;
-	}
-
-	public void setHostname(String hostname) {
-		this.hostname = hostname;
-	}
-
 	public String getIp() {
 		return ip;
 	}
 
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+
+	public String getSystem() {
+		return system;
+	}
+
+	public void setSystem(String system) {
+		this.system = system;
 	}
 
 	public Status getStatus() {
@@ -51,6 +51,12 @@ public class Client {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", ip=" + ip + ", system=" + system + ", status=" + status + "]";
+	}
+
 	
 	
 }
