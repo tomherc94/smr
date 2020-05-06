@@ -14,7 +14,6 @@ import com.opencsv.CSVReader;
 
 import model.entities.Client;
 import model.entities.Log;
-import model.enums.Status;
 
 public class SaveLogBD {
 
@@ -27,10 +26,6 @@ public class SaveLogBD {
 	public SaveLogBD(String file) {
 		this.file = file;
 	}
-	
-	public SaveLogBD(String ip, Status status) {
-		//find cliente pelo ip e atualiza o status
-	}
 
 	public void convertFileToLog() throws IOException {
 
@@ -39,7 +34,7 @@ public class SaveLogBD {
 		Reader reader = Files.newBufferedReader(Paths.get(file));
 
 		CSVReader csvReader = new CSVReader(reader);
-		
+
 		String[] nextRecord;
 		Log log = new Log();
 		Client cli = new Client();
@@ -57,7 +52,7 @@ public class SaveLogBD {
 			cli.setStatus("ONLINE");
 			break;
 		}
-		
+
 		csvReader.close();
 
 		this.saveOn(cli, log);
@@ -65,45 +60,64 @@ public class SaveLogBD {
 	}
 
 	public void saveOn(Client cli, Log log) {
-		// salvar this.log no BD
-		//testa se o cliente existe no BD, se sim atualiza, senao cria novo cliente
-		//System.out.println(log.toString());
-		//System.out.println(cli.toString());
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("exemplo-jpa");
 		EntityManager em = emf.createEntityManager();
-		
-		em.getTransaction().begin(); //inicia transação com o BD
+
+		em.getTransaction().begin(); // inicia transação com o BD
 		em.persist(log);
 
-		//verifica se cliente ja existe no BD
+		// verifica se cliente ja existe no BD
 		List<Client> clientes = em.createQuery("SELECT c FROM cliente c", Client.class).getResultList();
 		boolean verificaClient = false;
-		for(Client c : clientes) {
-			if(cli.equals(c)) {
+		for (Client c : clientes) {
+			if (cli.equals(c)) {
 				verificaClient = true;
+				cli = em.find(Client.class, c.getId());
+				cli.setStatus("ONLINE");
+				System.out.println(cli);
+				em.merge(cli);
 				break;
 			}
 		}
-		
-		if(verificaClient == false) {
+
+		if (verificaClient == false) {
 			em.persist(cli);
 		}
-		
-		
-		
-		
-	
-		em.getTransaction().commit();//confirma transação com o BD
-		
-		
+
+		em.getTransaction().commit();// confirma transação com o BD
+
 		System.out.println("SALVO NO BD!");
-		
+
 		em.close();
 		emf.close();
 	}
-	
-	public void saveOff(String ip, Status status) {
-		//atualiza cliente para OFFLINE
+
+	public void saveOff(String ip) {
+		// atualiza cliente para OFFLINE
+		Client cli = new Client();
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("exemplo-jpa");
+		EntityManager em = emf.createEntityManager();
+
+		em.getTransaction().begin(); // inicia transação com o BD
+
+		List<Client> clientes = em.createQuery("SELECT c FROM cliente c", Client.class).getResultList();
+		for (Client c : clientes) {
+			if (c.getIp().equals(ip)) {
+				cli = em.find(Client.class, c.getId());
+				cli.setStatus("OFFLINE");
+				System.out.println(cli);
+				em.merge(cli);
+				
+				break;
+			}
+		}
+
+		em.getTransaction().commit();// confirma transação com o BD
+
+		System.out.println("ATUALIZADO PARA OFFLINE!");
+
+		em.close();
+		emf.close();
 	}
 
 }

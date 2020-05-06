@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import model.enums.Status;
 import model.services.SaveLogBD;
 
 public class Server extends Thread {
@@ -53,15 +52,17 @@ public class Server extends Thread {
 			} while (client.isConnected());
 			
 			this.client.close();
-
+			
 			// servidor.close();
 
 		} catch (IOException e) {
+			
+			System.out.println(e.getMessage());
+		} finally {
 			SaveLogBD saveLogBD = new SaveLogBD();
-			saveLogBD.saveOff(client.getInetAddress().getHostAddress(), Status.OFFLINE);
+			saveLogBD.saveOff(client.getInetAddress().getHostAddress());
 
 			System.out.println("Atualiza " + client.getInetAddress().getHostAddress() + " para OFFLINE!!");
-			System.out.println(e.getMessage());
 		}
 
 	}
