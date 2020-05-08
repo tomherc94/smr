@@ -1,6 +1,7 @@
 package aplication;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -12,7 +13,7 @@ public class Program {
 		ServerSocket servidor = null;
 		try {
 			servidor = new ServerSocket(12345);
-			System.out.println("Porta 12345 aberta!");
+			System.out.println("Porta 12345 aberta no Servidor " + InetAddress.getLocalHost().getHostAddress());
 			System.out.println("Aguardando conexão do cliente...");
 
 			while (servidor.isBound()) {
