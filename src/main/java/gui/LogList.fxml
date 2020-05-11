@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox prefHeight="490.0" prefWidth="668.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="gui.LogListController">
+   <children>
+      <TableView fx:id="tableViewLog" prefHeight="489.0" prefWidth="611.0">
+        <columns>
+          <TableColumn fx:id="tableColumnId" prefWidth="46.0" text="Id" />
+          <TableColumn fx:id="tableColumnIpClient" prefWidth="90.0" text="IP Address" />
+            <TableColumn fx:id="tableColumnDateHour" prefWidth="98.0" text="Data/Hora" />
+            <TableColumn fx:id="tableColumnCpuMhz" prefWidth="69.0" text="Cpu (Mhz)" />
+            <TableColumn fx:id="tableColumnFreeRam" prefWidth="124.0" text="Free RAM (bytes)" />
+            <TableColumn fx:id="tableColumnFreeSwap" prefWidth="119.0" text="Free SWAP (bytes)" />
+            <TableColumn fx:id="tableColumnDiskUsagePerc" prefWidth="96.0" text="Disk Usage (%)" />
+        </columns>
+      </TableView>
+   </children>
+</VBox>

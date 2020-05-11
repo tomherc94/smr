@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox prefHeight="493.0" prefWidth="617.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="gui.ClienteListController">
+   <children>
+      <TableView fx:id="tableViewCliente" prefHeight="43.0" prefWidth="0.0">
+        <columns>
+          <TableColumn fx:id="tableColumnId" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="tableColumnIp" prefWidth="112.0" text="IP Address" />
+            <TableColumn fx:id="tableColumnSO" prefWidth="105.0" text="SO" />
+            <TableColumn fx:id="tableColumnStatus" prefWidth="98.0" text="Status" />
+            <TableColumn fx:id="tableColumnREMOVE" prefWidth="106.0" text="Excluir button" />
+        </columns>
+      </TableView>
+   </children>
+</VBox>
