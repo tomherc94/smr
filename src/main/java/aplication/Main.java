@@ -1,16 +1,15 @@
 package aplication;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
-import model.entities.Server;
+import javafx.stage.WindowEvent;
 
 public class Main extends Application {
 
@@ -30,9 +29,25 @@ public class Main extends Application {
 			primaryStage.setTitle("Sistema de Monitoramento de Redes");
 			primaryStage.setResizable(false);
 			primaryStage.show();
+			
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				@Override
+	            public void handle(WindowEvent t) {
+	                t.consume();
+
+	                System.out.println("Fechando Servidor ...");
+	                System.out.println("Servidor fechado!");
+
+	                primaryStage.close();
+	                Platform.exit();
+	                System.exit(0);
+	            }
+				
+			});
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public static Scene getMainScene() {
@@ -40,26 +55,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-		ServerSocket servidor = null;
-		try {
-			servidor = new ServerSocket(12345);
-			System.out.println("Porta 12345 aberta no Servidor " + InetAddress.getLocalHost().getHostAddress());
-			System.out.println("Aguardando conexão do cliente...");
-			
-			while (servidor.isBound()) {
-				Socket cliente = servidor.accept();
-				System.out.println("Cliente 1");
-				// Thread para tratar o cliente conectado
-				Server tratamento = new Server(cliente);
-				Thread t = new Thread(tratamento);
-
-				// Inicia a thread para o cliente conectado
-				t.start();
-			}
-			servidor.close();
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
 		launch(args);
+
 	}
 }

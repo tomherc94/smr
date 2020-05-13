@@ -38,19 +38,23 @@ public class SaveLogBD {
 		String[] nextRecord;
 		Log log = new Log();
 		Client cli = new Client();
-		while ((nextRecord = csvReader.readNext()) != null) {
-			log.setId(null);
-			log.setIpClient(nextRecord[0]);
-			log.setDateHour(nextRecord[1]);
-			log.setCpuMhz(Double.parseDouble(nextRecord[2]));
-			log.setFreeRam(Long.parseLong(nextRecord[3]));
-			log.setFreeSwap(Long.parseLong(nextRecord[4]));
-			log.setDiskUsagePerc(Double.parseDouble(nextRecord[5]));
-			cli.setId(null);
-			cli.setIp(nextRecord[6]);
-			cli.setSystem(nextRecord[7]);
-			cli.setStatus("ONLINE");
-			break;
+		try {
+			while ((nextRecord = csvReader.readNext()) != null) {
+				log.setId(null);
+				log.setIpClient(nextRecord[0]);
+				log.setDateHour(nextRecord[1]);
+				log.setCpuMhz(Double.parseDouble(nextRecord[2]));
+				log.setFreeRam(Long.parseLong(nextRecord[3]));
+				log.setFreeSwap(Long.parseLong(nextRecord[4]));
+				log.setDiskUsagePerc(Double.parseDouble(nextRecord[5]));
+				cli.setId(null);
+				cli.setIp(nextRecord[6]);
+				cli.setSystem(nextRecord[7]);
+				cli.setStatus("ONLINE");
+				break;
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println(e.getMessage());
 		}
 
 		csvReader.close();
@@ -64,7 +68,7 @@ public class SaveLogBD {
 		EntityManager em = emf.createEntityManager();
 
 		em.getTransaction().begin(); // inicia transação com o BD
-		em.persist(log);
+		//em.persist(log);
 
 		// verifica se cliente ja existe no BD
 		List<Client> clientes = em.createQuery("SELECT c FROM cliente c", Client.class).getResultList();
@@ -107,7 +111,7 @@ public class SaveLogBD {
 				cli.setStatus("OFFLINE");
 				System.out.println(cli);
 				em.merge(cli);
-				
+
 				break;
 			}
 		}
