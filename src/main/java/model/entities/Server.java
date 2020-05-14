@@ -34,7 +34,7 @@ public class Server extends Thread {
 				System.out.println(fName);
 				File f1 = new File("logs\\logCurrent" + client.getInetAddress().getHostAddress() + ".csv");
 				FileOutputStream out = new FileOutputStream(f1, false);
-				int tamanho = 1024; // buffer de 4KB
+				int tamanho = 2048; // buffer de 2KB
 				byte[] buffer = new byte[tamanho];
 				int lidos = -1;
 				while ((lidos = in.read(buffer, 0, tamanho)) != -1) { // veriricar essa linha

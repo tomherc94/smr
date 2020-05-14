@@ -15,6 +15,11 @@
          <children>
             <MenuBar>
               <menus>
+                  <Menu mnemonicParsing="false" text="Navegar">
+                     <items>
+                        <MenuItem fx:id="menuItemInicio" mnemonicParsing="false" onAction="#onMenuItemInicioAction" text="Início" />
+                     </items>
+                  </Menu>
                 <Menu mnemonicParsing="false" text="Consultar">
                   <items>
                     <MenuItem fx:id="menuItemCliente" mnemonicParsing="false" onAction="#onMenuItemClienteAction" text="Clientes" />
@@ -28,7 +33,7 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <ImageView fitHeight="412.0" fitWidth="679.0" opacity="0.73" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="413.0" fitWidth="679.0" opacity="0.73" pickOnBounds="true" preserveRatio="true" />
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
                 <Button fx:id="btLigar" mnemonicParsing="false" onAction="#onBtLigarAction" text="Ligar" />

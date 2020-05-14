@@ -14,12 +14,21 @@ public class ClienteService {
 	private EntityManager em = emf.createEntityManager();
 
 	public List<Client> findAll() {
-		em.getTransaction().begin(); // inicia transação com o BD
+		List<Client> clientes = null;
+		try {
+			em.getTransaction().begin(); // inicia transação com o BD
 
-		List<Client> clientes = em.createQuery("SELECT c FROM cliente c", Client.class).getResultList();
+			clientes = em.createQuery("select c from cliente c", Client.class).getResultList();
+			
 
-		em.getTransaction().commit();// confirma transação com o BD
-
+			em.getTransaction().commit();// confirma transação com o BD
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			em.close();
+			emf.close();
+		}		
+		
 		return clientes;
 	}
 

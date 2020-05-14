@@ -62,7 +62,7 @@ public class ClienteListController implements Initializable, DataChangeListener 
 	private void initializeNode() {
 		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnIp.setCellValueFactory(new PropertyValueFactory<>("ip"));
-		tableColumnSO.setCellValueFactory(new PropertyValueFactory<>("sysOp"));
+		tableColumnSO.setCellValueFactory(new PropertyValueFactory<>("system"));
 		tableColumnStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
 

@@ -38,23 +38,26 @@ public class SaveLogBD {
 		String[] nextRecord;
 		Log log = new Log();
 		Client cli = new Client();
-		try {
-			while ((nextRecord = csvReader.readNext()) != null) {
-				log.setId(null);
-				log.setIpClient(nextRecord[0]);
-				log.setDateHour(nextRecord[1]);
-				log.setCpuMhz(Double.parseDouble(nextRecord[2]));
-				log.setFreeRam(Long.parseLong(nextRecord[3]));
-				log.setFreeSwap(Long.parseLong(nextRecord[4]));
-				log.setDiskUsagePerc(Double.parseDouble(nextRecord[5]));
-				cli.setId(null);
-				cli.setIp(nextRecord[6]);
-				cli.setSystem(nextRecord[7]);
-				cli.setStatus("ONLINE");
+
+		while ((nextRecord = csvReader.readNext()) != null) {
+			log.setId(null);
+			log.setIpClient(nextRecord[0]);
+			
+			if(nextRecord[1] == null) { //caso tenha falha no recebimento do arquivo o programa nao ira travar
+				System.out.println("Falhou mas nao travou!");
 				break;
 			}
-		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println(e.getMessage());
+			
+			log.setDateHour(nextRecord[1]);
+			log.setCpuMhz(Double.parseDouble(nextRecord[2]));
+			log.setFreeRam(Long.parseLong(nextRecord[3]));
+			log.setFreeSwap(Long.parseLong(nextRecord[4]));
+			log.setDiskUsagePerc(Double.parseDouble(nextRecord[5]));
+			cli.setId(null);
+			cli.setIp(nextRecord[6]);
+			cli.setSystem(nextRecord[7]);
+			cli.setStatus("ONLINE");
+			break;
 		}
 
 		csvReader.close();
@@ -68,7 +71,7 @@ public class SaveLogBD {
 		EntityManager em = emf.createEntityManager();
 
 		em.getTransaction().begin(); // inicia transação com o BD
-		//em.persist(log);
+		em.persist(log); //salva log no BD
 
 		// verifica se cliente ja existe no BD
 		List<Client> clientes = em.createQuery("SELECT c FROM cliente c", Client.class).getResultList();
@@ -79,13 +82,13 @@ public class SaveLogBD {
 				cli = em.find(Client.class, c.getId());
 				cli.setStatus("ONLINE");
 				System.out.println(cli);
-				em.merge(cli);
+				em.merge(cli); //atualiza cliente para ONLINE
 				break;
 			}
 		}
 
 		if (verificaClient == false) {
-			em.persist(cli);
+			em.persist(cli); //salva novo cliente no BD
 		}
 
 		em.getTransaction().commit();// confirma transação com o BD

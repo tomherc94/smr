@@ -1,9 +1,6 @@
 package gui;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -21,12 +18,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-import model.entities.Server;
+import model.services.ClientFactory;
 import model.services.ClienteService;
 import model.services.LogService;
 
 public class MainViewController implements Initializable {
 
+	@FXML
+	private MenuItem menuItemInicio;
+	
 	@FXML
 	private MenuItem menuItemCliente;
 
@@ -41,35 +41,24 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	private Button btDesligar;
-
+	
 	@FXML
 	public void onBtLigarAction(ActionEvent event) {
-		ServerSocket servidor = null;
+		Thread factory = new ClientFactory();
+		
+		factory.start();
 
-		try {
-			servidor = new ServerSocket(12345);
-			System.out.println("Porta 12345 aberta no Servidor " + InetAddress.getLocalHost().getHostAddress());
-			System.out.println("Aguardando conexão do cliente...");
-			
-			while (servidor.isBound()) {
-				Socket cliente = servidor.accept();
-				System.out.println("Cliente 1");
-				// Thread para tratar o cliente conectado
-				Server tratamento = new Server(cliente);
-				Thread t = new Thread(tratamento);
-
-				// Inicia a thread para o cliente conectado
-				t.start();
-			}
-			servidor.close();
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
 	}
 	
 	@FXML
 	public void onBtDesligarAction(ActionEvent event) {
 		System.exit(0);
+	}
+	
+	@FXML
+	public void onMenuItemInicioAction() {
+		loadView("/gui/MainView.fxml", x -> {
+		});
 	}
 	
 	@FXML

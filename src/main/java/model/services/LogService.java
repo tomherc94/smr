@@ -16,7 +16,7 @@ public class LogService {
 	public List<Log> findAll() {
 		em.getTransaction().begin(); // inicia transação com o BD
 
-		List<Log> logs = em.createQuery("SELECT l FROM log l", Log.class).getResultList();
+		List<Log> logs = em.createQuery("select l from log l", Log.class).getResultList();
 
 		em.getTransaction().commit();// confirma transação com o BD
 
